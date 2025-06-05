@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Light Theme Calculator</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: #f0f2f5;
+        }
+
+        .calculator {
+            background: white;
+            padding: 20px;
+            border-radius: 20px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            width: 320px;
+        }
+
+        .display {
+            background: #f8f9fa;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            text-align: right;
+            height: 80px;
+            overflow: hidden;
+        }
+
+        .display input {
+            width: 100%;
+            border: none;
+            outline: none;
+            font-size: 2em;
+            background: transparent;
+            text-align: right;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.2em;
+            cursor: pointer;
+            background: #f8f9fa;
+            color: #212529;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #e9ecef;
+            transform: translateY(-2px);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .operator {
+            background: #e7f5ff;
+            color: #339af0;
+        }
+
+        .operator:hover {
+            background: #d0ebff;
+        }
+
+        .equals {
+            background: #339af0;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .equals:hover {
+            background: #228be6;
+        }
+
+        .clear {
+            background: #ffe3e3;
+            color: #fa5252;
+        }
+
+        .clear:hover {
+            background: #ffc9c9;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="display">
+            <input type="text" id="result" readonly>
+        </div>
+        <div class="buttons">
+            <button class="clear" onclick="clearDisplay()">C</button>
+            <button class="operator" onclick="appendOperator('/')">/</button>
+            <button class="operator" onclick="appendOperator('*')">×</button>
+            <button class="operator" onclick="appendOperator('-')">-</button>
+            <button onclick="appendNumber('7')">7</button>
+            <button onclick="appendNumber('8')">8</button>
+            <button onclick="appendNumber('9')">9</button>
+            <button class="operator" onclick="appendOperator('+')">+</button>
+            <button onclick="appendNumber('4')">4</button>
+            <button onclick="appendNumber('5')">5</button>
+            <button onclick="appendNumber('6')">6</button>
+            <button onclick="appendNumber('.')">.</button>
+            <button onclick="appendNumber('1')">1</button>
+            <button onclick="appendNumber('2')">2</button>
+            <button onclick="appendNumber('3')">3</button>
+            <button onclick="appendNumber('0')">0</button>
+            <button class="equals" onclick="calculate()">=</button>
+        </div>
+    </div>
+
+    <script>
+        const result = document.getElementById('result');
+        let currentExpression = '';
+
+        function appendNumber(number) {
+            currentExpression += number;
+            result.value = currentExpression;
+        }
+
+        function appendOperator(operator) {
+            if (currentExpression !== '' && 
+                !'+-/*'.includes(currentExpression[currentExpression.length - 1])) {
+                currentExpression += operator;
+                result.value = currentExpression;
+            }
+        }
+
+        function clearDisplay() {
+            currentExpression = '';
+            result.value = '';
+        }
+
+        function calculate() {
+            try {
+                const calculatedResult = eval(currentExpression);
+                currentExpression = calculatedResult.toString();
+                result.value = currentExpression;
+            } catch (error) {
+                result.value = 'Error';
+                currentExpression = '';
+            }
+        }
+    </script>
+</body>
+</html>
